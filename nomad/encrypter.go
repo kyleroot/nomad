@@ -442,7 +442,6 @@ func (krr *KeyringReplicator) run(ctx context.Context) {
 	defer stop()
 
 START:
-	store := krr.srv.fsm.State()
 
 	for {
 		select {
@@ -457,6 +456,7 @@ START:
 				goto ERR_WAIT // rate limit exceeded
 			}
 
+			store := krr.srv.fsm.State()
 			ws := store.NewWatchSet()
 			iter, err := store.RootKeyMetas(ws)
 			if err != nil {
